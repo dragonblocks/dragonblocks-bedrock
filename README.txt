@@ -4,10 +4,7 @@ An Open Source Project by Elias Fleckenstein
 
 1. General
 	1.1. What this is about
-		Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to 
-		Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.dragonblocks.tk and 
-		further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the 
-		C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
+		Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.dragonblocks.tk and further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
 	1.2. Version
 		This is the Dragonblocks Bedrock Edition 3.0.
 	1.4. Bugs
@@ -78,5 +75,4 @@ An Open Source Project by Elias Fleckenstein
 		dragonblocks.log(text)
 			Log something.
 	3.2. The C++ API
-		The C++ API is probably to big to explain here, but if you do C++ you should understand it. In case you have questions, feel free to
-		ask them on github. You can also contribute code if you want.
+		The C++ API is probably to big to explain here, but if you do C++ you should understand it. In case you have questions, feel free to ask them on github. You can also contribute code if you want.
