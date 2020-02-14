@@ -17,7 +17,7 @@ add_executable(dragonblocks
 
 target_link_libraries(dragonblocks
 	GL
-	freeglut
+	glut
 	lua5.3
 	pthread
 	png16
