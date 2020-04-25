@@ -14,31 +14,18 @@
 #include "mods.h"
 #include "threads.h"
 #include "inventory.h"
+#include "player.h"
 
 using namespace std;
 
-Map *Game::map;
-string Game::mapfile;
-string Game::logfile;
-int Game::seed;
-char **Game::argv;
-int *Game::argc;
-FILE *Game::logfile_fd;
-Inventory *Game::inventory;
-
 int main(int argc, char **argv){
-	if((string)argv[0] != "bin/dragonblocks"){
-		string command = "cd ..; bin/dragonblocks -w world ";
-		while(*++argv)
-			command += *argv;
-		exit(system(command.c_str()));
-	}
-	create_dir_if_not_exists((string)getenv("HOME")+"/.dragonblocks");
-	create_dir_if_not_exists((string)getenv("HOME")+"/.dragonblocks/worlds");
 	Game::argc = &argc;
 	Game::argv = argv;
+	Game::userdir = (string)getenv("HOME")+"/.dragonblocks";
+	Game::logfile_path = Game::userdir + "/dragonblocks.log";
+	create_dir_if_not_exists(Game::userdir);
+	create_dir_if_not_exists(Game::userdir + "/worlds");
 	Game::seed = time(0);
-	Game::logfile = (string)getenv("HOME")+"/.dragonblocks/dragonblocks.log";
 	const char *short_options = "hrvs:l:w:p:";
 	const struct option long_options[] = {
 		{"help", 0, NULL, 'h'},
@@ -62,16 +49,16 @@ int main(int argc, char **argv){
 				exit(EXIT_SUCCESS);
 				break;
 			case 'p':
-				Game::mapfile = optarg;
+				Game::worlddir = optarg;
 				break;
 			case 'w':
-				Game::mapfile = (string)getenv("HOME")+"/.dragonblocks/worlds/"+optarg;
+				Game::worlddir = Game::userdir + "/worlds/" + optarg;
 				break;
 			case 's':
 				Game::seed = atoi(optarg);
 				break;
 			case 'l':
-				Game::logfile = optarg;
+				Game::logfile_path = optarg;
 				break;
 			case 'r':
 				Game::worldlist();
@@ -84,30 +71,33 @@ int main(int argc, char **argv){
 				break;
 		};
 	}
-	if(Game::logfile_fd = fopen(Game::logfile.c_str(), "a"))
-		fprintf(Game::logfile_fd, "\n--------------------------------------------------\n");
+	if(Game::logfile = fopen(Game::logfile_path.c_str(), "a"))
+		fprintf(Game::logfile, "\n--------------------------------------------------\n");
 	else
-		Game::log((string)"Failed to open log file " + Game::logfile, WARNING);
+		Game::log((string)"Failed to open log file " + Game::logfile_path, WARNING);
 	Game::log((string)"Welcome to Dragonblocks "+VERSION);
-	srand(Game::seed);
-	new Node("unknown_node", "textures/unknown_node.png", true, true, false);
-	Mods::init();
-	Game::inventory = new Inventory();
-	Game::map = new Map();
-	if(Game::mapfile == ""){
+	if(Game::worlddir == ""){
 		Game::log("No World Specified", ERROR);
 		exit(EXIT_FAILURE);
 	}
-	if(fopen(Game::mapfile.c_str(), "r"))
+	create_dir_if_not_exists(Game::worlddir);
+	new Node("unknown_node", "textures/unknown_node.png", true, true, false);
+	Mods::init();
+	Mods::nodedef();
+	Game::map = new Map();
+	srand(Game::seed);
+	if(fopen((Game::worlddir + "/map").c_str(), "r"))
 		Game::map->load();
 	else
 		Mapgen();
-	Threads::startMapBackupThread();
-	Threads::startGraphicUpdateThread();
-	Threads::addSignalHandlers();
+	Game::player = new Player();
+	Threads::add_signal_handlers();
+	Threads::start(Threads::worldBackupThread);
+	Threads::start(Threads::graphicRedrawThread);
+	Threads::start(Threads::entityPhysicsThread);
 	Graphics::init();
 	Game::log("Closed Window, Exiting.");
-	Game::map -> save();
+	Game::save();
 	return 0;
 }
 

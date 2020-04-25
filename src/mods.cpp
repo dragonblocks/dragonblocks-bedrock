@@ -3,7 +3,6 @@
 #include <cerrno>
 #include <string>
 #include <iostream>
-
 #include "node.h"
 #include "mods.h"
 #include "game.h"
@@ -19,21 +18,34 @@ void Mods::init(){
 	lua_vm = luaL_newstate();
 	luaL_openlibs(lua_vm);
 	if(! check_lua(luaL_dofile(lua_vm, "builtin/init.lua"))){
-		Game::log("Failed to load Builtin", ERROR);
+		Game::log("Failed to load Builtin: File 'builtin/init.lua' does not exist or contains an error", ERROR);
 		exit(EXIT_FAILURE);
-	return;
+		return;
 	}
-	
-	for(;;){
-		lua_getglobal(lua_vm, "cpp_get_next_node");
-		if(!lua_isfunction(lua_vm, -1)){
-			Game::log("Lua is sick. What's Wrong with her?", EASTEREGG);
-			Game::log("No, seriously, something is wrong with the lua builtin (it is missing the function cpp_get_next_node)", ERROR);
-			exit(EXIT_FAILURE);
-		}
-		lua_pcall(lua_vm, 0, 1, 0);
-		if(! lua_istable(lua_vm, -1))
+}
+void Mods::nodedef(){
+	Game::log("Initializing Nodes");
+	lua_getglobal(lua_vm, "dragonblocks");
+	if(! lua_istable(lua_vm, -1)){
+		Game::log("Failed to load Builtin: 'dragonblocks' does not exist or is not a table", ERROR);
+		exit(EXIT_FAILURE);
+		return;
+	}
+	lua_pushstring(lua_vm, "registered_nodes");
+	lua_gettable(lua_vm, -2);
+	if(!lua_istable(lua_vm,-1)){
+		Game::log("Failed to load Builtin: 'dragonblocks.registered_nodes' does not exist or is not a table", ERROR);
+		exit(EXIT_FAILURE);
+		return;
+	}
+	lua_pushnil(lua_vm);
+	for(int i = 1;; i++){
+		lua_pop(lua_vm, 1);
+		lua_pushnumber(lua_vm, i);
+		lua_gettable(lua_vm, -2);
+		if(!lua_istable(lua_vm, -1))
 			break;
+		
 		
 		lua_pushstring(lua_vm, "name");
 		lua_gettable(lua_vm, -2);

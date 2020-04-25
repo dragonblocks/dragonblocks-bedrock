@@ -7,36 +7,47 @@
 #include <unistd.h>
 #include "mods.h"
 #include "game.h"
+#include "player.h"
 using namespace std;
+
+Map *Game::map;
+string Game::worlddir;
+string Game::logfile_path;
+int Game::seed;
+char **Game::argv;
+int *Game::argc;
+FILE *Game::logfile;
+string Game::userdir;
+Player *Game::player;
 
 void Game::log(string text, int level){
 	string prefix;
 	int color;
 	switch(level){
 		case WARNING: 
-			color = ORANGE;
+			color = CODE_ORANGE;
 			prefix = "WARNING"; 
 			break;
 		case ERROR:
-			color = RED;
+			color = CODE_RED;
 			prefix = "ERROR"; 
 			break;
 		case INFO:
-			color = LIGHTBLUE;
+			color = CODE_LIGHTBLUE;
 			prefix = "INFO"; 
 			break;
 		case LOG:
-			color = BLUE;
+			color = CODE_BLUE;
 			prefix = "LOG"; 
 			break;
 		case EASTEREGG:
-			color = VIOLET;
+			color = CODE_VIOLET;
 			prefix = "EASTEREGG";
 		default: break;
 	}
 	cout << "\e[3" << color << "m" << "[" << prefix << "] \e[0m" << text << endl;
-	if(logfile_fd)
-		fprintf(logfile_fd, "[%s] %s\n", prefix.c_str(), text.c_str());
+	if(logfile)
+		fprintf(logfile, "[%s] %s\n", prefix.c_str(), text.c_str());
 }
 void Game::log(string text){
 	log(text, LOG);
@@ -60,25 +71,32 @@ void Game::version(){
 }
 void Game::worldlist(){
 	log("Your worlds:");
-	DIR *folder;
-    struct dirent *entry;
-    int files = 0;
-
-    folder = opendir(((string)getenv("HOME")+"/.dragonblocks/worlds/").c_str());
+	DIR *folder = opendir((userdir + "/worlds/").c_str());;
     if(!folder){
 		Game::log("Cant Open World Directory", ERROR);
 		exit(EXIT_FAILURE);
 	}
+	struct dirent *entry;
+	int files = 0;
     while(entry = readdir(folder))
     {
         files++;
-		if(files > 2)
-			cout << "\t" << entry->d_name;
+		if(entry->d_name[0] != '.')
+			cout << "\t" << entry->d_name << endl;
     }
-	if(files <= 2)
-		cout << "\tYou have no Worlds yet.";
-    cout << endl;
+    files -= 2;
+	cout << "You have ";
+	if(files == 0) 
+		cout << "no";
+	else
+		cout << files;
+	cout << " World";
+	if(files != 1)
+		cout << "s";
+	cout << "." << endl;
 	closedir(folder);
-
     return;
+}
+void Game::save(){
+	map -> save();
 }

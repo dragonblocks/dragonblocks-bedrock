@@ -37,10 +37,6 @@ Texture::Texture(string filename, bool t){
 		png_set_strip_16(png);
 	if(color_type == PNG_COLOR_TYPE_PALETTE)
 		png_set_palette_to_rgb(png);
-	#ifndef _WIN32
-	if(color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-		png_set_expand_gray_1_2_4_to_8(png);
-	#endif
 	if(png_get_valid(png, info, PNG_INFO_tRNS))
 		png_set_tRNS_to_alpha(png);
 	if(color_type == PNG_COLOR_TYPE_RGB || color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_PALETTE)

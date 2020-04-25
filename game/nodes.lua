@@ -48,3 +48,7 @@ dragonblocks.register_node({
 	name = "dragonblocks:cobble", 
 	texture = "textures/cobble.png"
 })
+dragonblocks.register_node({
+	name = "dragonblocks:wood_planks", 
+	texture = "textures/wood_planks.png"
+})

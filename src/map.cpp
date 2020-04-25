@@ -19,8 +19,8 @@ void Map::setNode(int x, int y, string n){
 	setNode(x, y, Node::getNodeByName(n));
 }
 void Map::load(){
-	Game::log("Loading Map from " + Game::mapfile);
-	FILE *mapfile = fopen(Game::mapfile.c_str(), "r");
+	Game::log((string)"Loading Map from " + Game::worlddir + "/map");
+	FILE *mapfile = fopen((Game::worlddir + "/map").c_str(), "r");
 	if(mapfile){
 		for(int x = 0; x < MAPWIDTH; x++)
 			for(int y = 0; y < MAPHEIGHT; y++){
@@ -37,8 +37,8 @@ void Map::load(){
 	}
 }
 void Map::save(){
-	Game::log("Saving Map to " + Game::mapfile);
-	FILE *mapfile = fopen(Game::mapfile.c_str(), "w");
+	Game::log((string)"Saving Map to " + Game::worlddir + "/map");
+	FILE *mapfile = fopen((Game::worlddir + "/map").c_str(), "w");
 	if(mapfile){
 		for(int x = 0; x < MAPWIDTH; x++){
 			for(int y = 0; y < MAPHEIGHT; y++)

@@ -6,50 +6,78 @@
 #include "util.h"
 #include "game.h"
 #include "mapgen.h"
+#include "entity.h"
 
 position Graphics::pointed;
-position Graphics::pos = {MAPWIDTH/2 - DISPLAYWIDTH/2, MAPHEIGHT/2 - DISPLAYHEIGHT/2};
+position Graphics::scroll = {MAPWIDTH/2 - DISPLAYWIDTH/2, MAPHEIGHT/2 - DISPLAYHEIGHT/2};
+int Graphics::inventory_scroll;
 
 using namespace std;
-void Graphics::display(){
-	glClear(GL_COLOR_BUFFER_BIT);
-	//sky
+void Graphics::drawSky(){
 	drawRectangle(0, 0, DISPLAYWIDTH*BLOCKWIDTH, DISPLAYHEIGHT*BLOCKWIDTH, "#87CEEB");
-	//map
+}
+void Graphics::drawMap(){
 	for(int x = 0; x < DISPLAYWIDTH; x++){
 		for(int y = 0; y < DISPLAYHEIGHT; y++){
-			Game::map -> getNode(x+pos.x, y+pos.y) -> texture -> draw(x*BLOCKWIDTH, y*BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
+			Game::map -> getNode(x+scroll.x, y+scroll.y) -> texture -> draw(x*BLOCKWIDTH, y*BLOCKWIDTH, BLOCKWIDTH, BLOCKWIDTH);
 		}
 	}
-	//pointed block
+}
+void Graphics::drawEntities(){
+	for(int i = 0; i < Entity::count; i++){
+		if(Entity::list[i] == NULL)
+			continue;
+		Entity *entity = Entity::list[i];
+		entity -> texture -> draw((entity->x - scroll.x) * BLOCKWIDTH, (entity->y - scroll.y) * BLOCKWIDTH, entity->width * BLOCKWIDTH, entity->height * BLOCKWIDTH);	
+	}
+}
+void Graphics::drawPointedBlock(){
 	if(pointed.x < DISPLAYWIDTH){
 		drawRectangle(pointed.x * BLOCKWIDTH, pointed.y * BLOCKWIDTH, BLOCKWIDTH, 1, COLOR_BLACK);
 		drawRectangle(pointed.x * BLOCKWIDTH + BLOCKWIDTH - 1, pointed.y * BLOCKWIDTH, 1, BLOCKWIDTH, COLOR_BLACK);
 		drawRectangle(pointed.x * BLOCKWIDTH, pointed.y * BLOCKWIDTH + BLOCKWIDTH - 1, BLOCKWIDTH, 1, COLOR_BLACK);
 		drawRectangle(pointed.x * BLOCKWIDTH, pointed.y * BLOCKWIDTH, 1, BLOCKWIDTH, COLOR_BLACK);
 	}
-	//inventory
-	
-	drawRectangle(DISPLAYWIDTH*BLOCKWIDTH, 0, INVWIDTH, DISPLAYHEIGHT*BLOCKWIDTH, "#B4B4B4");
-	drawRectangle(DISPLAYWIDTH*BLOCKWIDTH, Game::inventory->selected * INVWIDTH, INVWIDTH, INVWIDTH, "#636363");
-	for(int i = 0; i < Game::inventory->count; i++)
-		Game::inventory -> getSlot(i) -> texture -> draw(BLOCKWIDTH*DISPLAYWIDTH + (INVWIDTH-INVBLOCKWIDTH)/2, i * INVWIDTH + (INVWIDTH-INVBLOCKWIDTH)/2, INVBLOCKWIDTH, INVBLOCKWIDTH);
-	//infotext
+}
+void Graphics::drawInventory(){
+	Inventory *inv = Game::player->inventory;
+	int x = DISPLAYWIDTH*BLOCKWIDTH;
+	drawRectangle(x, 0, INVWIDTH, DISPLAYHEIGHT*BLOCKWIDTH, "#B4B4B4");
+	drawRectangle(x, (inv->selected - inventory_scroll) * INVWIDTH, INVWIDTH, INVWIDTH, "#636363");
+	x = BLOCKWIDTH*DISPLAYWIDTH + (INVWIDTH-INVBLOCKWIDTH)/2;
+	int yf = (INVWIDTH-INVBLOCKWIDTH)/2;
+	for(int i = 0; i < Game::player->inventory->count; i++){
+		int nr = i + inventory_scroll;
+		if(inv -> getSlot(nr))
+			inv -> getSlot(nr) -> texture -> draw(x, i * INVWIDTH + yf, INVBLOCKWIDTH, INVBLOCKWIDTH);
+		else
+			drawRectangle(x, i * INVWIDTH + yf, INVBLOCKWIDTH, INVBLOCKWIDTH, "#3E3E3E");
+	}
+}
+void Graphics::drawInfotext(){
 	writeText(5, 5, (string)"Dragonblocks "+VERSION, GLUT_BITMAP_9_BY_15, COLOR_WHITE);
-	string infotext = "pos: ("+to_string(pos.x)+", "+to_string(pos.y)+"), seed: "+to_string(Game::seed);
+	string infotext = "pos: ("+to_string(Game::player->x)+", "+to_string(Game::player->y)+") | seed: "+to_string(Game::seed);
 	if(pointed.x < DISPLAYWIDTH)
-		infotext += ", pointed: "+ Game::map->getNode(pointed.x+pos.x, pointed.y+pos.y)->name + "("+to_string(pointed.x+pos.x)+", "+to_string(pointed.y+pos.y)+")";
+		infotext += " | pointed: "+ Game::map->getNode(pointed.x+scroll.x, pointed.y+scroll.y)->name + "("+to_string(pointed.x+scroll.x)+", "+to_string(pointed.y+scroll.y)+")";
 	writeText(5, 20, infotext, GLUT_BITMAP_9_BY_15, COLOR_WHITE);
-	//writeText(5, 35, "world: "+Game::mapfile, GLUT_BITMAP_9_BY_15, COLOR_WHITE);
+}
+void Graphics::display(){
+	glClear(GL_COLOR_BUFFER_BIT);
+	drawSky();
+	drawEntities();
+	drawMap();
+	drawPointedBlock();
+	drawInventory();
+	drawInfotext();
 	glFlush();
 }
 void Graphics::reshape(int width, int height){
-	glViewport(0, 0, width, height);       /* Establish viewing area to cover entire window. */
-	glMatrixMode(GL_PROJECTION);  /* Start modifying the projection matrix. */
-	glLoadIdentity();             /* Reset project matrix. */
-	glOrtho(0, width, 0, height, -1, 1);   /* Map abstract coords directly to window coords. */
-	glScalef(1, -1, 1);           /* Invert Y axis so increasing Y goes down. */
-	glTranslatef(0, -height, 0);       /* Shift origin up to upper-pos.x corner. */
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, width, 0, height, -1, 1);
+	glScalef(1, -1, 1);
+	glTranslatef(0, -height, 0);
 }
 void Graphics::init(){
 	glutInit(Game::argc, Game::argv);
@@ -59,51 +87,85 @@ void Graphics::init(){
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
+	glutSpecialUpFunc(special_up);
 	glutMouseFunc(mouse);
 	glutPassiveMotionFunc(motion);
 	glutMotionFunc(motion);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 	glutMainLoop();
 }
 void Graphics::keyboard(unsigned char key, int x, int y){
+	switch(key){
+		case ' ':
+			Game::player->jump();
+			break;
+	}
 }
 void Graphics::special(int key, int x, int y){
 	switch(key){
 		case GLUT_KEY_LEFT:
-			if(pos.x > 0)
-				pos.x--;
-			break;
-		case GLUT_KEY_UP:
-			if(pos.y > 0)
-				pos.y--;
+			Game::player->left();
 			break;
 		case GLUT_KEY_RIGHT:
-			if(pos.x < MAPWIDTH-DISPLAYWIDTH)
-				pos.x++;
+			Game::player->right();
+			break;
+		case GLUT_KEY_UP:
+			Game::player->inventory->selectUp();
+			ajustInventoryScroll();
 			break;
 		case GLUT_KEY_DOWN:
-			if(pos.y < MAPHEIGHT-DISPLAYHEIGHT)
-				pos.y++;
+			Game::player->inventory->selectDown();
+			ajustInventoryScroll();
 			break;
 	}
+}
+void Graphics::special_up(int key, int x, int y){
+	switch(key){
+		case GLUT_KEY_LEFT:
+		case GLUT_KEY_RIGHT:
+			Game::player->stop();
+			break;
+	}
+}
+void Graphics::ajustScroll(){
+	if(Game::player->y - scroll.y < 2)
+		if(scroll.y > 0)
+			scroll.y--;
+	if(Game::player->x - scroll.x < 2)
+		if(scroll.x > 0)
+			scroll.x--;
+	if(scroll.y + DISPLAYHEIGHT - Game::player->y - Game::player->height < 2)
+		if(scroll.y < MAPHEIGHT-DISPLAYHEIGHT)
+			scroll.y++;
+	if(scroll.x + DISPLAYWIDTH - Game::player->x - Game::player->width < 2)
+		if(scroll.x < MAPWIDTH-DISPLAYWIDTH)
+			scroll.x++;
+}
+void Graphics::ajustInventoryScroll(){
+	Inventory *inv = Game::player->inventory;
+	int invblocks_displayed = DISPLAYHEIGHT * BLOCKWIDTH / INVWIDTH;
+	if(inv->selected < inventory_scroll)
+		inventory_scroll = inv->selected;
+	else if(inv->selected >= inventory_scroll + invblocks_displayed)
+		inventory_scroll = inv->selected - invblocks_displayed + 1;
 }
 void Graphics::mouse(int key, int action, int x, int y){
 	if(action == 0){
 		if(x < BLOCKWIDTH*DISPLAYWIDTH){
 			switch(key){
 				case 0:
-					if(Game::map -> getNode(pointed.x+pos.x, pointed.y+pos.y)->stable)
-						Game::map -> setNode(pointed.x+pos.x, pointed.y+pos.y, MAPGEN_AIR);
+					if(Game::map -> getNode(pointed.x+scroll.x, pointed.y+scroll.y)->stable)
+						Game::map -> setNode(pointed.x+scroll.x, pointed.y+scroll.y, MAPGEN_AIR);
 					break;
 				case 2:
-					if(! Game::map -> getNode(pointed.x+pos.x, pointed.y+pos.y)->stable)
-						Game::map -> setNode(pointed.x+pos.x, pointed.y+pos.y, Game::inventory->getSelectedSlot());
+					if(! Game::map -> getNode(pointed.x+scroll.x, pointed.y+scroll.y)->stable)
+						Game::map -> setNode(pointed.x+scroll.x, pointed.y+scroll.y, Game::player->inventory->getSelectedSlot());
 					break;
 			}
 		}
 		else{
-			Game::inventory->select(y/INVWIDTH);
+			Game::player->inventory->select(y/INVWIDTH + inventory_scroll);
 		}
 	}
 }

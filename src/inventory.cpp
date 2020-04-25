@@ -13,11 +13,17 @@ Inventory::Inventory(){
 Node *Inventory::getSlot(int nr){
 	if(nr >= 0 && nr < count)
 		return list[nr];
-	return list[0]; 
+	return NULL; 
 }
 void Inventory::select(int nr){
 	if(nr >= 0 && nr < count)
 		selected = nr;
+}
+void Inventory::selectUp(){
+	select(selected - 1);
+}
+void Inventory::selectDown(){
+	select(selected + 1);
 }
 Node *Inventory::getSelectedSlot(){
 	return list[selected];

@@ -1,0 +1,3 @@
+/media/drachiologe/Fleckenstein/C++/dragonblocks-dev/CMakeFiles/rebuild_cache.dir
+/media/drachiologe/Fleckenstein/C++/dragonblocks-dev/CMakeFiles/dragonblocks.dir
+/media/drachiologe/Fleckenstein/C++/dragonblocks-dev/CMakeFiles/edit_cache.dir

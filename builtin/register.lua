@@ -1,20 +1,24 @@
-core.nodes = {}
-dragonblocks.register_node = function(obj)
-	if obj and obj.name and obj.texture then
-		core.nodes[#core.nodes+1] = {}
-		core.nodes[#core.nodes].name = obj.name
-		core.nodes[#core.nodes].texture = obj.texture
-		core.nodes[#core.nodes].stable = false
-		if obj.stable == nil or obj.stable == true then
-			core.nodes[#core.nodes].stable = true
+dragonblocks.registered_nodes = {}
+dragonblocks.nodes = {}
+dragonblocks.register_node = function(proto)
+	if proto and proto.name and proto.texture then
+		local node = {}
+		node.name = proto.name
+		node.texture = proto.texture
+		node.stable = false
+		if proto.stable == nil or proto.stable == true then
+			node.stable = true
 		end
-		core.nodes[#core.nodes].hidden = false
-		if obj.hidden then
-			core.nodes[#core.nodes].hidden = true
+		node.hidden = false
+		if proto.hidden then
+			node.hidden = true
 		end
-		core.nodes[#core.nodes].translucent = false
-		if obj.translucent then
-			core.nodes[#core.nodes].translucent = true
+		node.translucent = false
+		if proto.translucent then
+			node.translucent = true
 		end
+		dragonblocks.nodes[node.name] = node
+		dragonblocks.registered_nodes[#dragonblocks.registered_nodes+1] = node
+		
 	end		
 end

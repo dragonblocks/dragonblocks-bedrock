@@ -9,7 +9,7 @@ An Open Source Project by Elias Fleckenstein
 		further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the 
 		C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
 	1.2. Version
-		This is the Dragonblocks Bedrock Edition 3.0.
+		This is the Dragonblocks Bedrock Edition 3.1.
 	1.4. Bugs
 		Please Report Bugs to eliasfleckenstein@web.de.
 	1.5. License
@@ -61,22 +61,5 @@ An Open Source Project by Elias Fleckenstein
 				$ sudo ./install.sh
 			It will copy the dragonblocks directory to /usr/share/dragonblocks and place a script in
 			/usr/bin/dragonblocks that starts dragonblocks.
-
 3. Developing
-	3.1. The Lua Modding API
-		If you want to add a lua file to the game, place it in the game folder and add a dofile() in game/init.lua
-		Note: The lua api currently consists of only two functions. If you want to add something I'm open to ideas or code.
-		dragonblocks.register_node(obj)
-			Register a new node
-			obj has to contain:
-				name: string - the itemstring. It should follow the convention "modulename:nodename"
-				texture: string - the texture path. Textures should be placed in the textures folder and have to be 16 x 16 px.
-			obj can contain:
-				stable: boolean - Nodes like water or air are unstable. [default = true]
-				hidden: boolean - The Node will be hidden in the invenotry. [default = false]
-				translucent: boolean - Whether the node's texture should be transparent. [default = false]
-		dragonblocks.log(text)
-			Log something.
-	3.2. The C++ API
-		The C++ API is probably to big to explain here, but if you do C++ you should understand it. In case you have questions, feel free to
-		ask them on github. You can also contribute code if you want.
+    Please Refer to the Dragonblocks Wiki on Github

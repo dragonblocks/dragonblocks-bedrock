@@ -10,6 +10,8 @@ class Inventory{
 		Node *list[MAXNODES];
 		Node *getSlot(int);
 		void select(int);
+		void selectUp();
+		void selectDown();
 		Node *getSelectedSlot();
 		Inventory();
 };

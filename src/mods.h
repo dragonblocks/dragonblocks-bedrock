@@ -13,7 +13,8 @@ class Mods{
 	public:
 		static lua_State *lua_vm;
 		static bool check_lua(int);
-		static void init();
 		static void error(std::string);
+		static void init();
+		static void nodedef();
 };
 #endif

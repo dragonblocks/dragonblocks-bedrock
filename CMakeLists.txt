@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(dragonblocks)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 add_executable(dragonblocks
+    src/entity.cpp
 	src/game.cpp
     src/graphics.cpp
     src/inventory.cpp
@@ -10,6 +11,7 @@ add_executable(dragonblocks
 	src/mapgen.cpp
 	src/mods.cpp
 	src/node.cpp
+	src/player.cpp
     src/texture.cpp
     src/threads.cpp
 	src/util.cpp
