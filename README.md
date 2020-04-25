@@ -1,7 +1,5 @@
 # DRAGONBLOCKS BEDROCK EDITION
-Written in C++
 An Open Source Project by Elias Fleckenstein
-
 ## General
 ### What this is about
 Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.elidragon.com/projects/Dragonblocks and further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
@@ -28,11 +26,10 @@ Please Report Bugs to eliasfleckenstein@web.de.
 		MA 02110-1301, USA.
 ## Starting the Game
 ### Platform Compability
-This Game was developed on linux, therefore following instructions are only for linux users, basically because I have no idea how to
-		port the game to other platforms. Feel free to add building instructions for other systems over github.
-	2.3. Download
-		You can download the game using git:
-			$ git clone https://github.com/EliasFleckenstein03/dragonblocks.git
+This Game was developed on linux, therefore following instructions are only for linux users, basically because I have no idea how to port the game to other platforms. Feel free to add building instructions for other systems over github.
+### Download
+You can download the game using git:
+´$ git clone https://github.com/EliasFleckenstein03/dragonblocks.git´
 	2.2. Dependencies:
 		You need Freeglut, OpenGl, Cmake, Liblua and Libpng.
 		If you are on Debian/Ubuntu You can install them over apt: 
