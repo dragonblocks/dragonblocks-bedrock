@@ -29,28 +29,23 @@ Please Report Bugs to eliasfleckenstein@web.de.
 This Game was developed on linux, therefore following instructions are only for linux users, basically because I have no idea how to port the game to other platforms. Feel free to add building instructions for other systems over github.
 ### Download
 You can download the game using git:
-´$ git clone https://github.com/EliasFleckenstein03/dragonblocks.git´
-	2.2. Dependencies:
-		You need Freeglut, OpenGl, Cmake, Liblua and Libpng.
-		If you are on Debian/Ubuntu You can install them over apt: 
-			$ sudo apt install liblua5.3-dev freeglut3-dev libgl1-mesa-dev cmake libpng-dev
-    2.3. Building
-        to Build dragonblocks run:
-            $ cd dragonblocks
-            $ cmake .
-            $ make
-	2.4. Exectute
-		2.4.1. Run-In-Place
-			Invoke dragonblocks by typing:
-                		$ cd dragonblocks
-                		$ bin/dragonblocks --worldname <your_worldname>
-            		To see a list of worlds do:
-                		$ bin/dragonblocks --worldlist
-            		You can select a world from this list or create a new one.
-            		For more info run:
-				$ bin/dragonblocks --help
-		2.4.2. Installation
-			You can install dragonblocks by doing:
-				$ sudo ./install.sh
-			It will copy the dragonblocks directory to /usr/share/dragonblocks and place a script in
-			/usr/bin/dragonblocks that starts dragonblocks.
+`$ git clone https://github.com/EliasFleckenstein03/dragonblocks.git`
+### Dependencies:
+You need Freeglut, OpenGl, Cmake, Liblua and Libpng. If you are on Debian/Ubuntu You can install them over apt: 
+`$ sudo apt install liblua5.3-dev freeglut3-dev libgl1-mesa-dev cmake libpng-dev`
+### Building
+to Build dragonblocks run:
+`$ cmake .`
+`$ make`
+### Exectute
+#### Run-In-Place
+Invoke dragonblocks by typing:
+`$ bin/dragonblocks --worldname <your_worldname>`
+To see a list of worlds do:
+`$ bin/dragonblocks --worldlist`
+You can select a world from this list or create a new one.
+For more info run:
+`$ bin/dragonblocks --help`
+#### Installation
+You can install dragonblocks by doing:
+`$ sudo ./install.sh`
