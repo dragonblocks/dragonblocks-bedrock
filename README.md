@@ -1,18 +1,15 @@
 # DRAGONBLOCKS BEDROCK EDITION
-## Written in C++
-## An Open Source Project by Elias Fleckenstein
+Written in C++
+An Open Source Project by Elias Fleckenstein
 
-1. General
-	1.1. What this is about
-		Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to 
-		Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.elidragon.com/projects/Dragonblocks and 
-		further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the 
-		C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
-	1.2. Version
-		This is the Dragonblocks Bedrock Edition 3.1.
-	1.4. Bugs
-		Please Report Bugs to eliasfleckenstein@web.de.
-	1.5. License
+## General
+### What this is about
+Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.elidragon.com/projects/Dragonblocks and further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
+### Version
+This is the Dragonblocks Bedrock Edition 3.1.
+### Bugs
+Please Report Bugs to eliasfleckenstein@web.de.
+### License
 		Copyright 2020 Elias Fleckenstein <eliasfleckenstein@web.de>
 		
 		This program is free software; you can redistribute it and/or modify
@@ -29,10 +26,9 @@
 		along with this program; if not, write to the Free Software
 		Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 		MA 02110-1301, USA.
-
-2. Starting the Game
-	2.1. Platform Compability
-		This Game was developed on linux, therefore following instructions are only for linux users, basically because I have no idea how to
+## Starting the Game
+### Platform Compability
+This Game was developed on linux, therefore following instructions are only for linux users, basically because I have no idea how to
 		port the game to other platforms. Feel free to add building instructions for other systems over github.
 	2.3. Download
 		You can download the game using git:
