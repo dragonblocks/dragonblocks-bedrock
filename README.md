@@ -1,11 +1,11 @@
-DRAGONBLOCKS BEDROCK EDITION
-Written in C++
-An Open Source Project by Elias Fleckenstein
+# DRAGONBLOCKS BEDROCK EDITION
+## Written in C++
+## An Open Source Project by Elias Fleckenstein
 
 1. General
 	1.1. What this is about
 		Dragonblocks originaly was a Browsergame I made that should be some kind of 2D Minetest (Minetest (www.minetest.net) is a game similar to 
-		Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.dragonblocks.tk and 
+		Minecraft, except Minetest is free & open source and is meant to be modded). The JavaScript Edition is hosted at www.elidragon.com/projects/Dragonblocks and 
 		further developed then this C++ Version, through the C++ Version has advantages like map saving and lot larger map. I decided to call the 
 		C++ Version "Bedrock Edition" as a joke for the Minecraft C++ Version is Called Bedrock or Pocket Edition.
 	1.2. Version
@@ -61,5 +61,3 @@ An Open Source Project by Elias Fleckenstein
 				$ sudo ./install.sh
 			It will copy the dragonblocks directory to /usr/share/dragonblocks and place a script in
 			/usr/bin/dragonblocks that starts dragonblocks.
-3. Developing
-    Please Refer to the Dragonblocks Wiki on Github
