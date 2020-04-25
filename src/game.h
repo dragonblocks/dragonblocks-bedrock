@@ -21,7 +21,7 @@
 #define CODE_LIGHTBLUE 6
 #define CODE_GREY 7
 
-#define VERSION "3.1"
+#define VERSION "3.2-dev"
 
 class Game{
 	public:

@@ -4,4 +4,4 @@ dragonblocks.log("| | | | '__/ _` |/ _` |/ _ \\| '_ \\| '_ \\| |/ _ \\ / __| |/ 
 dragonblocks.log("| |_| | | | (_| | (_| | (_) | | | | |_) | | (_) | (__|   <\\__ \\ ")
 dragonblocks.log("|____/|_|  \\__,_|\\__, |\\___/|_| |_|_.__/|_|\\___/ \\___|_|\\_\\___/ ")
 dragonblocks.log("                 |___/                                          ")
-dofile("game/nodes.lua")
+dofile("mods/dragonblocks/nodes.lua")
