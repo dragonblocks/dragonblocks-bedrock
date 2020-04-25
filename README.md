@@ -1,4 +1,5 @@
 # DRAGONBLOCKS BEDROCK EDITION
+Written in C++  
 An Open Source Project by Elias Fleckenstein
 ## General
 ### What this is about
@@ -31,21 +32,21 @@ This Game was developed on linux, therefore following instructions are only for 
 You can download the game using git:
 `$ git clone https://github.com/EliasFleckenstein03/dragonblocks.git`
 ### Dependencies:
-You need Freeglut, OpenGl, Cmake, Liblua and Libpng. If you are on Debian/Ubuntu You can install them over apt: 
+You need Freeglut, OpenGl, Cmake, Liblua and Libpng.  If you are on Debian/Ubuntu You can install them over apt:   
 `$ sudo apt install liblua5.3-dev freeglut3-dev libgl1-mesa-dev cmake libpng-dev`
 ### Building
-to Build dragonblocks run:
-`$ cmake .`
-`$ make`
+to Build dragonblocks run:  
+`$ cmake .`  
+`$ make`  
 ### Exectute
 #### Run-In-Place
-Invoke dragonblocks by typing:
-`$ bin/dragonblocks --worldname <your_worldname>`
-To see a list of worlds do:
-`$ bin/dragonblocks --worldlist`
-You can select a world from this list or create a new one.
-For more info run:
+Invoke dragonblocks by typing:  
+`$ bin/dragonblocks --worldname <your_worldname>`  
+To see a list of worlds do:  
+`$ bin/dragonblocks --worldlist`  
+You can select a world from this list or create a new one.  
+For more info run:  
 `$ bin/dragonblocks --help`
 #### Installation
-You can install dragonblocks by doing:
+You can install dragonblocks by doing:  
 `$ sudo ./install.sh`
